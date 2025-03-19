@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>김민준씨..</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html,
+      body {
+        font-family: "Black Han Sans", sans-serif;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        height: 100vh;
+        position: relative; /* main의 절대 위치 기준 */
+      }
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        height: 10%;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+        z-index: 999;
+      }
+      nav ul {
+        list-style: none;
+        display: flex;
+        gap: 1rem;
+        margin: 0;
+        padding: 0;
+      }
+      nav ul li a {
+        color: #333;
+        padding: 0.5rem 1rem;
+        font-size: 3rem;
+        text-decoration: none;
+        background-color: #cecece;
+      }
+      nav ul li a.active {
+        background-color: #555555;
+      }
+
+      main {
+        position: absolute;
+        top: 10%;
+        bottom: 10%;
+        left: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+      }
+      .section {
+        display: none;
+        text-align: center;
+        align-items: center;
+      }
+
+      #home {
+        font-size: 3rem;
+      }
+
+      #intro {
+        font-size: 2rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+        padding: 5%;
+      }
+      .hover-zoom {
+        transition: transform 0.2s;
+        cursor: pointer;
+      }
+      .hover-zoom:hover {
+        transform: scale(1.2);
+      }
+
+      #frontend,
+      #backend,
+      #blog {
+        font-size: 2rem;
+        padding: 5%;
+      }
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+      .dropdown-menu {
+        display: none;
+        position: absolute;
+        background-color: #cecece;
+        width: 100%;
+        z-index: 1000;
+      }
+      .dropdown-menu a {
+        color: #333;
+        padding: 0.5rem 1rem;
+        text-decoration: none;
+        display: block;
+      }
+      .dropdown-menu a.active {
+        background-color: #555555;
+      }
+
+      #experience {
+        font-size: 2rem;
+        text-align: left;
+        padding: 5%;
+      }
+      .lotto-container {
+        margin-top: 1rem;
+        font-size: 2rem;
+      }
+      .lotto-results {
+        margin-top: 1rem;
+        font-size: 2rem;
+        font-weight: bold;
+        color: green;
+      }
+      #blog ul li {
+        text-align: center;
+        font-size: 4rem; /* 원하는 폰트 크기로 조정 */
+        white-space: nowrap; /* 한 줄로 표시 */
+        overflow: hidden; /* 넘치는 텍스트 숨김 */
+        text-overflow: ellipsis; /* 넘치는 텍스트는 ... 처리 */
+        width: 80%; /* 혹은 원하는 고정 너비를 설정 */
+      }
+      footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 10%;
+        font-size: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+        z-index: 999;
+      }
+      .theme-toggle {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        text-decoration: none;
+        background-color: #cecece;
+      }
+      body.dark-mode {
+        background-color: #333;
+        color: #f4f4f4;
+      }
+      body.dark-mode nav ul li a {
+        background-color: #666;
+        color: #fff;
+      }
+      body.dark-mode nav ul li a.active {
+        background-color: #cecece;
+      }
+      body.dark-mode .theme-toggle {
+        background-color: #999;
+        color: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <img
+        src="https://icons.veryicon.com/png/o/miscellaneous/logo-design-of-lingzhuyun/icon-correct-24-1.png"
+        height="115%"
+        onclick="showSection('home', this)"
+      />
+      <nav>
+        <ul>
+          <li>
+            <a href="#" onclick="showSection('intro', this)">내 소개</a>
+          </li>
+          <li class="dropdown">
+            <a href="#" onclick="toggleDropdown(event)">기술 스택</a>
+            <div class="dropdown-menu" id="techDropdown">
+              <a
+                href="#"
+                data-target="frontend"
+                onclick="selectTech(event, this)"
+                >프론트</a
+              >
+              <a
+                href="#"
+                data-target="backend"
+                onclick="selectTech(event, this)"
+                >백엔드</a
+              >
+            </div>
+          </li>
+          <li>
+            <a href="#" onclick="showSection('experience', this)">경험</a>
+          </li>
+          <li>
+            <a href="#" onclick="showSection('blog', this)">블로그</a>
+          </li>
+          <li class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+            다크<br />모드
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <div id="home" class="section">
+        <h2>모르면 마법, 알면 기술이다.</h2>
+        <h3>김민준의 기술 블로그에 오신 여러분을 환영합니다.</h3>
+      </div>
+      <div id="intro" class="section">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/2815/2815428.png"
+          class="hover-zoom"
+        />
+        <p>
+          대학 졸업을 앞둔 컴퓨터 공학 전공의 학생, 김민준입니다. 전공 수업과
+          여러 프로젝트를 통해 소프트웨어 개발에 필요한 다양한 프로그래밍 언어와
+          기술을 익혔습니다. 특히, 인공 지능과 모바일 애플리케이션 개발에 깊은
+          관심을 가지고 있습니다.
+        </p>
+      </div>
+      <div id="frontend" class="section">
+        <p>
+          프론트엔드 기술: HTML, CSS, JavaScript, React.js 등 프론트엔드 개발에
+          필요한 기술들을 다루고 있습니다.
+        </p>
+      </div>
+      <div id="backend" class="section">
+        <p>
+          백엔드 기술: Node.js, Express, MongoDB 등 서버 사이드 개발과
+          데이터베이스 기술을 중심으로 학습 중입니다.
+        </p>
+      </div>
+      <div id="experience" class="section">
+        • 학력: 한국대학교에서 철학과를 졸업<br />
+        • 교육과정: 한국폴리텍대학의 데이터분석과 과정을 수료하였습니다.<br />
+        • 수상경력: 구글 주최 해커톤 최우수상 수상<br />
+        • 로또 프로그램 개발 (<a href="#" onclick="showSection('lotto', this)"
+          >클릭</a
+        >)
+      </div>
+      <div id="blog" class="section"></div>
+      <div id="lotto" class="section">
+        <h1>로또 프로그램</h1>
+        <h1>
+          로또 번호, 숫자를 입력 받아 최대 5게임까지 동시에 알려드립니다.<br />
+          • 1부터 45까지 6개 숫자
+        </h1>
+        <div class="lotto-container">
+          <label for="gameCount">게임 수 (최대 5게임): </label>
+          <input
+            type="number"
+            id="gameCount"
+            name="gameCount"
+            min="1"
+            max="5"
+            value="1"
+          />
+          <button id="generateLotto">Go!</button>
+        </div>
+        <div class="lotto-results" id="lottoResults"></div>
+      </div>
+    </main>
+    <footer>
+      <p>페이스북</p>
+      <p>인스타그램</p>
+      <p>Mail : minjoon@gggmail.com</p>
+    </footer>
+    <script>
+      // 다크 모드 토글
+      function toggleTheme() {
+        document.body.classList.toggle("dark-mode");
+      }
+
+      const sections = [
+        "home",
+        "intro",
+        "frontend",
+        "backend",
+        "experience",
+        "blog",
+        "lotto",
+      ];
+
+      // 모든 섹션 숨기기
+      function hideAllSections() {
+        sections.forEach((id) => {
+          document.getElementById(id).style.display = "none";
+        });
+      }
+
+      // 모든 nav 링크에서 active 클래스 제거
+      function clearNavActive() {
+        const navLinks = document.querySelectorAll("nav > ul > li > a");
+        navLinks.forEach((link) => link.classList.remove("active"));
+      }
+
+      // 일반 nav 항목 클릭 시 호출 (드롭다운 외)
+      function showSection(sectionId, element) {
+        // 기술스택 드롭다운 닫기 및 내부 active 상태 초기화
+        document.getElementById("techDropdown").style.display = "none";
+        document
+          .querySelectorAll("#techDropdown a")
+          .forEach((item) => item.classList.remove("active"));
+        clearNavActive();
+        hideAllSections();
+        // 선택한 섹션 표시 (intro는 flex, 나머지는 block)
+        if (sectionId === "intro") {
+          document.getElementById(sectionId).style.display = "flex";
+        } else {
+          document.getElementById(sectionId).style.display = "block";
+        }
+        if (element && element.classList) {
+          element.classList.add("active");
+        }
+        // 블로그 섹션일 경우 loadBlog() 실행
+        if (sectionId === "blog") {
+          loadBlog();
+        }
+      }
+      function loadBlog() {
+        fetch("https://jwonchi.github.io/kopoclass/JSON/news.json")
+          .then((response) => response.json())
+          .then((data) => {
+            // data가 배열이라고 가정하고 각 객체의 title 속성을 추출합니다.
+            const titles = data.news.map((news) => news.title);
+            // 제목 리스트를 ul/li 형태로 생성
+            let html = "<ul>";
+            titles.forEach((title) => {
+              html += `<li>${title}</li>`;
+            });
+            html += "</ul>";
+            // blog 섹션에 출력
+            document.getElementById("blog").innerHTML = html;
+          })
+          .catch((error) => console.error("Error fetching JSON:", error));
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        showSection("home");
+      });
+      // 기술스택 nav 클릭 시 드롭다운 토글
+      function toggleDropdown(event) {
+        event.preventDefault();
+        clearNavActive();
+        const techNav = event.target; // 기술스택 nav 링크
+        const dropdownMenu = techNav.nextElementSibling;
+        if (dropdownMenu.style.display === "block") {
+          dropdownMenu.style.display = "none";
+          techNav.classList.remove("active");
+        } else {
+          dropdownMenu.style.display = "block";
+          techNav.classList.add("active");
+        }
+      }
+
+      // 드롭다운 메뉴 내 항목 선택 시 호출
+      function selectTech(event, element) {
+        event.preventDefault();
+        // 드롭다운 내 모든 항목의 active 제거
+        const dropdownItems = document.querySelectorAll("#techDropdown a");
+        dropdownItems.forEach((item) => item.classList.remove("active"));
+        // 선택한 항목 active 처리
+        element.classList.add("active");
+        // 기술스택 nav(active) 유지
+        const techNav = element.parentElement.previousElementSibling;
+        techNav.classList.add("active");
+        hideAllSections();
+        // data-target 속성으로 해당 섹션 표시 (예, frontend 또는 backend)
+        const targetSection = element.getAttribute("data-target");
+        if (targetSection) {
+          document.getElementById(targetSection).style.display = "block";
+        }
+        // 드롭다운 메뉴는 그대로 열어둠 (active 상태 유지)
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        showSection("home");
+      });
+
+      // 로또 번호 생성 함수
+      function generateLottoNumbers() {
+        const numbers = new Set();
+        while (numbers.size < 6) {
+          numbers.add(Math.floor(Math.random() * 45) + 1);
+        }
+        return Array.from(numbers).sort((a, b) => a - b);
+      }
+
+      document.getElementById("generateLotto").addEventListener("click", () => {
+        const gameCount = parseInt(document.getElementById("gameCount").value);
+        const results = [];
+        for (let i = 0; i < gameCount; i++) {
+          results.push(generateLottoNumbers());
+        }
+        console.log(JSON.stringify(results));
+        const lottoResultsDiv = document.getElementById("lottoResults");
+        lottoResultsDiv.innerHTML = results
+          .map((game, idx) => `<p>${idx + 1} : ${game.join(", ")}</p>`)
+          .join("");
+      });
+    </script>
+  </body>
+</html>
